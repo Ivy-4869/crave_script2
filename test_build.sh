@@ -7,7 +7,7 @@
 TG_BOT_TOKEN="8153933976:AAHLza4gwShckhzAydZxJWGYFKYrgEO5MVE"
 TG_BUILD_CHAT_ID="-1002476597056"
 DEVICE_CODE="aurora"
-BUILD_TARGET="crDroid"
+BUILD_TARGET="AxionOS"
 ANDROID_VERSION="16"
 
 # SHELL CONFIGURATION
@@ -87,7 +87,7 @@ start_build_process() {
     rm -rf vendor/lineage-priv
 
     # Init ROM repository
-    repo init -u https://github.com/crdroidandroid/android.git -b 16.0 --git-lfs --no-clone-bundle
+    repo init -u https://github.com/AxionAOSP/android.git -b lineage-23.0 --git-lfs
 
     # Resync sources
     /opt/crave/resync.sh
@@ -107,9 +107,11 @@ start_build_process() {
 
     # Custom flag
     export TARGET_DISABLE_MATLOG=true
+    export BYPASS_CHARGE_SUPPORTED=false
 
     # Start building
-    brunch aurora
+    axion aurora va
+    ax -br -j$(nproc --all)
 
     BUILD_STATUS=$? # Capture exit code immediately
 
